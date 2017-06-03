@@ -4,20 +4,27 @@ class Bottles
   end
 
   def verses(start_verse, end_verse)
-    start_verse.downto(end_verse).map {|num| verse(num) }.join("\n")
+    start_verse.downto(end_verse).map do |num|
+      verse(num)
+    end.join("\n")
   end
 
-  def verse(num)
-    bottles = bottleClass(num).new(num)
-    <<-EOF
-#{bottles.title_count} of beer on the wall, #{bottles.count} of beer.
-#{bottles.take_it_down}, #{bottles.next_count} of beer on the wall.
+  FORMAT_STRING = <<-EOF
+%{title_count} of beer on the wall, %{count} of beer.
+%{take_it_down}, %{next_count} of beer on the wall.
 EOF
+
+  def verse(num)
+    FORMAT_STRING % bottle_instance(num).components
   end
 
   private
 
-  def bottleClass(num)
+  def bottle_instance(num)
+    bottle_class(num).new(num)
+  end
+
+  def bottle_class(num)
     case num
     when 0 ; NoBottles
     when 1 ; OneBottle
@@ -38,6 +45,15 @@ EOF
 
     def next_count
       count((num-1) % 100)
+    end
+
+    def components
+      {
+        title_count: title_count,
+        count: count,
+        take_it_down: take_it_down,
+        next_count: next_count
+      }
     end
   end
 
