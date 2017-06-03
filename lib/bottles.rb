@@ -1,13 +1,4 @@
 class Bottles
-  ONE_TEXT = <<-EOF
-1 bottle of beer on the wall, 1 bottle of beer.
-Take it down and pass it around, no more bottles of beer on the wall.
-EOF
-  ZERO_TEXT = <<-VERSE
-No more bottles of beer on the wall, no more bottles of beer.
-Go to the store and buy some more, 99 bottles of beer on the wall.
-VERSE
-
   def song
     verses(99, 0)
   end
@@ -17,18 +8,82 @@ VERSE
   end
 
   def verse(num)
-    return ZERO_TEXT if num == 0
-    return ONE_TEXT if num == 1
-
+    bottles = bottleClass(num).new(num)
     <<-EOF
-#{num} bottles of beer on the wall, #{num} bottles of beer.
-Take one down and pass it around, #{bottles(num-1)} of beer on the wall.
+#{bottles.title_count} of beer on the wall, #{bottles.count} of beer.
+#{bottles.take_it_down}, #{bottles.next_count} of beer on the wall.
 EOF
   end
 
   private
 
-  def bottles(num)
-    num == 1 ? "#{num} bottle" : "#{num} bottles"
+  def bottleClass(num)
+    case num
+    when 0 ; NoBottles
+    when 1 ; OneBottle
+    else ; MultipleBottles
+    end
+  end
+
+
+  class Bottle
+    def initialize(num)
+      @num = num
+    end
+    attr_reader :num
+
+    def title_count
+      count.capitalize
+    end
+
+    def next_count
+      count((num-1) % 100)
+    end
+  end
+
+  class NoBottles < Bottle
+    def take_it_down
+      "Go to the store and buy some more"
+    end
+
+    def count
+      "no more bottles"
+    end
+
+    def next_count
+      MultipleBottles.new(99).count
+    end
+  end
+
+  class OneBottle < Bottle
+    def take_it_down
+      "Take it down and pass it around"
+    end
+
+    def count
+      "#{num} bottle"
+    end
+
+    def next_count
+      NoBottles.new(num).count
+    end
+  end
+
+  class MultipleBottles < Bottle
+    def take_it_down
+      "Take one down and pass it around"
+    end
+
+    def count(x = num)
+      "#{x} bottles"
+    end
+
+    def next_count
+      if num == 2
+        OneBottle.new(1).count
+      else
+        count(num - 1)
+      end
+    end
   end
 end
