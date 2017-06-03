@@ -21,17 +21,12 @@ EOF
   private
 
   def bottle_instance(num)
-    bottle_class(num).new(num)
-  end
-
-  def bottle_class(num)
     case num
     when 0 ; NoBottles
     when 1 ; OneBottle
     else ; MultipleBottles
-    end
+    end.new(num)
   end
-
 
   class Bottle
     def initialize(num)
