@@ -5,6 +5,18 @@ module VerseStrategies
     end
     attr_reader :num
 
+    def count
+      raise NotImplementedError
+    end
+
+    def next_count
+      raise NotImplementedError
+    end
+
+    def take_it_down
+      raise NotImplementedError
+    end
+
     def title_count
       count.capitalize
     end
