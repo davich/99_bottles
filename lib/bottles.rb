@@ -1,3 +1,9 @@
+require_relative 'verse_strategies/strategy.rb'
+require_relative 'verse_strategies/no_bottles.rb'
+require_relative 'verse_strategies/one_bottle.rb'
+require_relative 'verse_strategies/two_bottles.rb'
+require_relative 'verse_strategies/default.rb'
+
 class Bottles
   def song
     verses(99, 0)
@@ -15,86 +21,17 @@ class Bottles
 EOF
 
   def verse(num)
-    FORMAT_STRING % bottle_instance(num).components
+    FORMAT_STRING % strategy_instance(num).components
   end
 
   private
 
-  def bottle_instance(num)
+  def strategy_instance(num)
     case num
-    when 0 ; NoBottles
-    when 1 ; OneBottle
-    else ; MultipleBottles
+    when 0 ; VerseStrategies::NoBottles
+    when 1 ; VerseStrategies::OneBottle
+    when 2 ; VerseStrategies::TwoBottles
+    else ; VerseStrategies::Default
     end.new(num)
-  end
-
-  class Bottle
-    def initialize(num)
-      @num = num
-    end
-    attr_reader :num
-
-    def title_count
-      count.capitalize
-    end
-
-    def next_count
-      count((num-1) % 100)
-    end
-
-    def components
-      {
-        title_count: title_count,
-        count: count,
-        take_it_down: take_it_down,
-        next_count: next_count
-      }
-    end
-  end
-
-  class NoBottles < Bottle
-    def take_it_down
-      "Go to the store and buy some more"
-    end
-
-    def count
-      "no more bottles"
-    end
-
-    def next_count
-      MultipleBottles.new(99).count
-    end
-  end
-
-  class OneBottle < Bottle
-    def take_it_down
-      "Take it down and pass it around"
-    end
-
-    def count
-      "#{num} bottle"
-    end
-
-    def next_count
-      NoBottles.new(num).count
-    end
-  end
-
-  class MultipleBottles < Bottle
-    def take_it_down
-      "Take one down and pass it around"
-    end
-
-    def count(x = num)
-      "#{x} bottles"
-    end
-
-    def next_count
-      if num == 2
-        OneBottle.new(1).count
-      else
-        count(num - 1)
-      end
-    end
   end
 end
