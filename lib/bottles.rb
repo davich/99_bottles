@@ -10,9 +10,7 @@ class Bottles
   end
 
   def verses(start_verse, end_verse)
-    start_verse.downto(end_verse)
-      .map {|num| verse(num) }
-      .join("\n")
+    start_verse.downto(end_verse).map {|num| verse(num) }.join("\n")
   end
 
   def verse(num)
@@ -22,9 +20,7 @@ class Bottles
   private
 
   def verse_components(num)
-    STRATEGIES[num]
-      .new(num)
-      .components
+    STRATEGIES[num].new(num).components
   end
 
   FORMAT_STRING = <<-EOF
