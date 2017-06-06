@@ -10,9 +10,21 @@ class Bottles
   end
 
   def verses(start_verse, end_verse)
-    start_verse.downto(end_verse).map do |num|
-      verse(num)
-    end.join("\n")
+    start_verse.downto(end_verse)
+      .map {|num| verse(num) }
+      .join("\n")
+  end
+
+  def verse(num)
+    FORMAT_STRING % verse_components(num)
+  end
+
+  private
+
+  def verse_components(num)
+    STRATEGIES[num]
+      .new(num)
+      .components
   end
 
   FORMAT_STRING = <<-EOF
@@ -20,18 +32,9 @@ class Bottles
 %{take_it_down}, %{next_count} of beer on the wall.
 EOF
 
-  def verse(num)
-    FORMAT_STRING % strategy_instance(num).components
-  end
-
-  private
-
-  def strategy_instance(num)
-    case num
-    when 0 ; VerseStrategies::NoBottles
-    when 1 ; VerseStrategies::OneBottle
-    when 2 ; VerseStrategies::TwoBottles
-    else ; VerseStrategies::Default
-    end.new(num)
-  end
+  STRATEGIES = {
+    0 => VerseStrategies::NoBottles,
+    1 => VerseStrategies::OneBottle,
+    2 => VerseStrategies::TwoBottles,
+  }.tap {|h| h.default = VerseStrategies::Default }
 end

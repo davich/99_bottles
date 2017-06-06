@@ -1,9 +1,10 @@
 module VerseStrategies
   class Strategy
+    attr_reader :num
+    
     def initialize(num)
       @num = num
     end
-    attr_reader :num
 
     def count
       raise NotImplementedError
