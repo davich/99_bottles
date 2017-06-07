@@ -28,9 +28,9 @@ class Bottles
 %{take_it_down}, %{next_count} of beer on the wall.
 EOF
 
-  STRATEGIES = {
+  STRATEGIES = Hash.new(VerseStrategies::Default).merge(
     0 => VerseStrategies::NoBottles,
     1 => VerseStrategies::OneBottle,
     2 => VerseStrategies::TwoBottles,
-  }.tap {|h| h.default = VerseStrategies::Default }
+  )
 end
