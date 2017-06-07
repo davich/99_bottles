@@ -4,8 +4,8 @@ module VerseStrategies
       "Take one down and pass it around"
     end
 
-    def count(x = num)
-      "#{x} bottles"
+    def count
+      "2 bottles"
     end
 
     def next_count

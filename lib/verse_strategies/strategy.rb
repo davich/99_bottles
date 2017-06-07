@@ -24,10 +24,10 @@ module VerseStrategies
 
     def components
       {
-        title_count: title_count,
         count: count,
+        next_count: next_count,
         take_it_down: take_it_down,
-        next_count: next_count
+        title_count: title_count,
       }
     end
   end

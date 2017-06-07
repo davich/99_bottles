@@ -9,8 +9,8 @@ class Bottles
     verses(99, 0)
   end
 
-  def verses(start_verse, end_verse)
-    start_verse.downto(end_verse).map {|num| verse(num) }.join("\n")
+  def verses(high, low)
+    high.downto(low).map {|num| verse(num) }.join("\n")
   end
 
   def verse(num)

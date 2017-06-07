@@ -5,11 +5,11 @@ module VerseStrategies
     end
 
     def count
-      "#{num} bottle"
+      "1 bottle"
     end
 
     def next_count
-      NoBottles.new(num).count
+      NoBottles.new(0).count
     end
   end
 end
