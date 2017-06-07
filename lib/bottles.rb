@@ -14,13 +14,7 @@ class Bottles
   end
 
   def verse(num)
-    FORMAT_STRING % verse_components(num)
-  end
-
-  private
-
-  def verse_components(num)
-    STRATEGIES[num].components(num)
+    FORMAT_STRING % STRATEGIES[num].components(num)
   end
 
   FORMAT_STRING = <<-EOF
