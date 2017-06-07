@@ -22,12 +22,13 @@ module VerseStrategies
       count.capitalize
     end
 
-    def components
+    def self.components(num)
+      strategy = new(num)
       {
-        count: count,
-        next_count: next_count,
-        take_it_down: take_it_down,
-        title_count: title_count,
+        count: strategy.count,
+        next_count: strategy.next_count,
+        take_it_down: strategy.take_it_down,
+        title_count: strategy.title_count,
       }
     end
   end

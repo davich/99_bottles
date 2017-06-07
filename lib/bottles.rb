@@ -20,7 +20,7 @@ class Bottles
   private
 
   def verse_components(num)
-    STRATEGIES[num].new(num).components
+    STRATEGIES[num].components(num)
   end
 
   FORMAT_STRING = <<-EOF
