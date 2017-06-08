@@ -17,14 +17,14 @@ class Bottles
     FORMAT_STRING % STRATEGIES[num].components(num)
   end
 
-  FORMAT_STRING = <<-EOF
-%{title_count} of beer on the wall, %{count} of beer.
-%{take_it_down}, %{next_count} of beer on the wall.
-EOF
-
   STRATEGIES = Hash.new(VerseStrategies::Default).merge(
     0 => VerseStrategies::NoBottles,
     1 => VerseStrategies::OneBottle,
     2 => VerseStrategies::TwoBottles,
   )
+
+  FORMAT_STRING = <<-EOT
+%{title_count} of beer on the wall, %{count} of beer.
+%{take_it_down}, %{next_count} of beer on the wall.
+EOT
 end
