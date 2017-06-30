@@ -16,8 +16,8 @@ class Bottles
     FORMAT_STRING % VerseStrategies::Strategy.for(num).components
   end
 
-  FORMAT_STRING = <<-EOF
+  FORMAT_STRING = <<-EOT
 %{title_count} of beer on the wall, %{count} of beer.
 %{action}, %{next_count} of beer on the wall.
-EOF
+EOT
 end
