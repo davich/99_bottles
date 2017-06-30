@@ -1,6 +1,6 @@
 module VerseStrategies
   class NoBottles < Strategy
-    def take_it_down
+    def action
       "Go to the store and buy some more"
     end
 
@@ -9,7 +9,7 @@ module VerseStrategies
     end
 
     def next_count
-      Default.new(99).count
+      Strategy.for(99).count
     end
   end
 end

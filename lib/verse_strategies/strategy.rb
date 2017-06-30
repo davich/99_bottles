@@ -1,9 +1,20 @@
 module VerseStrategies
   class Strategy
     attr_reader :num
-    
+
     def initialize(num)
       @num = num
+    end
+
+    def self.for(num)
+      strategies[num].new(num)
+    end
+
+    def self.strategies
+      Hash.new(Default).merge(
+        0 => NoBottles,
+        1 => OneBottle,
+      )
     end
 
     def count
@@ -14,21 +25,20 @@ module VerseStrategies
       raise NotImplementedError
     end
 
-    def take_it_down
+    def action
       raise NotImplementedError
     end
 
-    def title_count
-      count.capitalize
+    def next_count
+      Strategy.for(num - 1).count
     end
 
-    def self.components(num)
-      strategy = new(num)
+    def components
       {
-        count: strategy.count,
-        next_count: strategy.next_count,
-        take_it_down: strategy.take_it_down,
-        title_count: strategy.title_count,
+        count: count,
+        next_count: next_count,
+        action: action,
+        title_count: count.capitalize,
       }
     end
   end

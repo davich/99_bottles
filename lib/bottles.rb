@@ -1,7 +1,6 @@
 require_relative 'verse_strategies/strategy.rb'
 require_relative 'verse_strategies/no_bottles.rb'
 require_relative 'verse_strategies/one_bottle.rb'
-require_relative 'verse_strategies/two_bottles.rb'
 require_relative 'verse_strategies/default.rb'
 
 class Bottles
@@ -14,17 +13,11 @@ class Bottles
   end
 
   def verse(num)
-    FORMAT_STRING % STRATEGIES[num].components(num)
+    FORMAT_STRING % VerseStrategies::Strategy.for(num).components
   end
 
   FORMAT_STRING = <<-EOF
 %{title_count} of beer on the wall, %{count} of beer.
-%{take_it_down}, %{next_count} of beer on the wall.
+%{action}, %{next_count} of beer on the wall.
 EOF
-
-  STRATEGIES = Hash.new(VerseStrategies::Default).merge(
-    0 => VerseStrategies::NoBottles,
-    1 => VerseStrategies::OneBottle,
-    2 => VerseStrategies::TwoBottles,
-  )
 end
